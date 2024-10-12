@@ -1,0 +1,20 @@
+spring:
+    application:
+        name: register-image-service
+    servlet:
+        multipart:
+            max-file-size: 10MB
+            max-request-size: 10MB
+    data:
+        mongodb:
+            uri: mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}
+            database: ${MONGO_DB}
+
+server:
+    port: 8081
+
+minio:
+    url: ${MINIO_URL}
+    access-key: ${MINIO_USER}
+    secret-key: ${MINIO_PASSWORD}
+    bucket-name: ${MINIO_BUCKET_NAME}
