@@ -1,0 +1,24 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: proyect-serverless-richyortega
+spec:
+  template:
+    spec:
+      containers:
+        - image: richyortega/upload-image-service:v3
+          ports:
+            - containerPort: 8086
+          env:
+            - name: APP_PORT
+              value: '8086'
+            - name: MONGO_URI
+              value: 'mongodb://admin:admin123@mongodb-service-richyortega:27017/images?authSource=admin'
+            - name: MINIO_URL
+              value: http://minio-service-richyortega:9000
+            - name: MINIO_USER
+              value: miniouser
+            - name: MINIO_PASSWORD
+              value: miniopass
+            - name: MINIO_BUCKET_NAME
+              value: uploaded-images
