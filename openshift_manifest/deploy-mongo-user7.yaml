@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deploy-richyortega
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb-deploy-richyortega
+  template:
+    metadata:
+      labels:
+        app: mongodb-deploy-richyortega
+    spec:
+      containers:
+        - name: mongodb-container
+          image: mongo:latest
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: admin
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: admin123
+          volumeMounts:
+            - name: mongodb-proyect-storage
+              mountPath: /data/db
+      volumes:
+        - name: mongodb-proyect-storage
+          persistentVolumeClaim:
+            claimName: mongodb-proyect-pvc

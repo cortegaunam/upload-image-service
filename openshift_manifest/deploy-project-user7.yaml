@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proyect-deploy-richyortega
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proyect-deploy-richyortega
+  template:
+    metadata:
+      labels:
+        app: proyect-deploy-richyortega
+    spec:
+      containers:
+        - name: proyect-container
+          image: richyortega/upload-image-service:v3
+          ports:
+            - containerPort: 8085
+          env:
+            - name: APP_PORT
+              value: '8085'
+            - name: MONGO_URI
+              value: 'mongodb://admin:admin123@mongodb-service-richyortega:27017/images?authSource=admin'
+#            - name: MONGO_HOST
+#              value: mongodb-service-user7
+#            - name: MONGO_PORT
+#              value: 27017
+#            - name: MONGO_DB
+#              value: images
+            - name: MINIO_URL
+              value: http://minio-service-richyortega:9000
+            - name: MINIO_USER
+              value: miniouser
+            - name: MINIO_PASSWORD
+              value: miniopass
+            - name: MINIO_BUCKET_NAME
+              value: uploaded-images

@@ -7,11 +7,12 @@ spring:
             max-request-size: 10MB
     data:
         mongodb:
-            uri: mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}
-            database: ${MONGO_DB}
+            uri: ${MONGO_URI}
+            #uri: mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}
+            #database: ${MONGO_DB}
 
 server:
-    port: 8081
+    port: ${APP_PORT}
 
 minio:
     url: ${MINIO_URL}
