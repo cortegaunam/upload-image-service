@@ -20,5 +20,6 @@ ENV MINIO_BUCKET_NAME=$MINIO_BUCKET_NAME
 ENV APP_PORT=$APP_PORT
 ARG JAR_FILE=target/*.jar
 COPY target/*.jar app.jar
+RUN microdnf install -y curl && microdnf clean all
 EXPOSE $APP_PORT
 CMD ["java", "-jar", "/app.jar"]
