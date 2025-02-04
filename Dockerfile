@@ -1,4 +1,4 @@
-FROM openjdk:17-oracle
+FROM docker.io/openjdk:17-oracle
 LABEL maintainer="Cristian Ricardo Ortega Ramírez <cristian.ortega@comunidad.unam.mx>"
 ARG MONGO_URI=mongodb://usuario:contraseña@host:puerto/nombre_base_datos
 #ARG MONGO_HOST=localhost

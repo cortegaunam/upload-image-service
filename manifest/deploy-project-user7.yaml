@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: proyect-container
-          image: richyortega/upload-image-service:v5
+          image: richyortega/upload-image-service:v6
           ports:
             - containerPort: 8085
           env:
