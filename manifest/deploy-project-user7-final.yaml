@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: proyect-container
-          image: ${IMAGE_NAME}:${NEW_VERSION}
+          image: {{IMAGE_NAME}}:{{NEW_VERSION}}
           ports:
             - containerPort: 8085
           env:
