@@ -1,21 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: minio-deploy-user7
+  name: minio-richyortega
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: minio
+      app: minio-richyortega
   template:
     metadata:
       labels:
-        app: minio
+        app: minio-richyortega
     spec:
-      #initContainers:
-      #  - name: create-bucket
-      #    image: minio/mc
-      #    command: ['sh', '-c', 'until (mc alias set myminio http://minio-service-user7:9000 miniouser miniopass && mc mb myminio/uploaded-image); do echo "Waiting for minio-service ..."; sleep 5; done']
       containers:
       - name: minio-container
         image: minio/minio:RELEASE.2024-10-13T13-34-11Z        

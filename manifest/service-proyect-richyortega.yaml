@@ -4,7 +4,7 @@ metadata:
   name: proyect-service-richyortega
 spec:
   selector:
-    app: proyect-deploy-richyortega
+    app: proyect-richyortega
   ports:
     - protocol: TCP
       port: 80

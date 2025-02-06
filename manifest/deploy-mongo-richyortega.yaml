@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb-deploy-richyortega
+  name: mongodb-richyortega
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb-deploy-richyortega
+      app: mongodb-richyortega
   template:
     metadata:
       labels:
-        app: mongodb-deploy-richyortega
+        app: mongodb-richyortega
     spec:
       containers:
         - name: mongodb-container
@@ -28,4 +28,4 @@ spec:
       volumes:
         - name: mongodb-proyect-storage
           persistentVolumeClaim:
-            claimName: mongodb-proyect-pvc
+            claimName: mongo-pvc

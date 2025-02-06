@@ -4,7 +4,7 @@ metadata:
   name: mongodb-service-richyortega
 spec:
   selector:
-    app: mongodb-deploy-richyortega
+    app: mongodb-richyortega
   ports:
     - protocol: TCP
       port: 27017
