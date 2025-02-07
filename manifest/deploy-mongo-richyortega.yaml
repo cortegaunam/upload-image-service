@@ -2,15 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb-richyortega
+  labels:
+    app.kubernetes.io/name: mongodb
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: mongodb-richyortega
+      app.kubernetes.io/name: mongodb
   template:
     metadata:
       labels:
         app: mongodb-richyortega
+        app.kubernetes.io/name: mongodb
     spec:
       containers:
         - name: mongodb-container

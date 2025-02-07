@@ -2,15 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: proyect-richyortega
+  labels:
+    app.kubernetes.io/name: github
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: proyect-richyortega
+      app.kubernetes.io/name: github
   template:
     metadata:
       labels:
         app: proyect-richyortega
+        app.kubernetes.io/name: github
     spec:
       containers:
         - name: proyect-container
