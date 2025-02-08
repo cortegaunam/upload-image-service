@@ -33,7 +33,7 @@ pipeline {
                  withEnv(readFile('env.properties').split('\n') as List) {
                      withCredentials([usernamePassword(credentialsId: 'dockerhub-cristian-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USER')]) {
                          sh '''
-                             echo $DOCKER_PASSWORD | sudo docker login -u $DOCKER_USER --password-stdin d>
+                             echo $DOCKER_PASSWORD | sudo docker login -u $DOCKER_USER --password-stdin docker.io
                              sudo docker push ${IMAGE_NAME}:${NEW_VERSION}
                              sudo docker image rm ${IMAGE_NAME}:${NEW_VERSION}
                              sudo docker logout
@@ -43,5 +43,11 @@ pipeline {
                  }
             }
         }
-    }  
+    }
+
+    post { 
+        always { 
+            cleanWs()
+        }
+    }
 }
