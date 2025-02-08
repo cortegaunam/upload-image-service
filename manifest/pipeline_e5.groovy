@@ -22,7 +22,7 @@ pipeline {
                  sh '''
                      IMAGE_NAME="richyortega/proyecto-diplomado"
                      NEW_VERSION=$(git describe)
-                     sudo docker build -t ${IMAGE_NAME}:${NEW_VERSION}
+                     sudo docker build -t ${IMAGE_NAME}:${NEW_VERSION} .
                  '''
             }
         }
