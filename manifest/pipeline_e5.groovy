@@ -13,7 +13,7 @@ pipeline {
                 echo "M2_HOME = ${M2_HOME}"
                 java -version
                 echo "** starting notificaciones compilation"
-                mvn package -Dmaven.skip.test
+                mvn package -Dmaven.test.skip
                 echo "** end notificaciones compilation"                            '''
             }
         }
