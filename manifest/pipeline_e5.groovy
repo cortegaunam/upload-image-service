@@ -5,7 +5,7 @@ pipeline {
         jdk 'JDK17'
     }
     stages {
-        stage ('Initialize') {
+        stage ('Clone') {
             steps {
                 sh '''
                 echo "PATH = ${PATH}"
@@ -13,8 +13,27 @@ pipeline {
                 echo "M2_HOME = ${M2_HOME}"
                 java -version
                 echo "** starting notificaciones compilation"
-                mvn clean package
+                mvn package -Dmaven.skip.test
                 echo "** end notificaciones compilation"                            '''
+            }
+        }
+        stage ('Build') {
+            steps {
+                 sh '''
+                     IMAGE_NAME="richyortega/proyecto-diplomado"
+                     NEW_VERSION=$(git describe)
+                     sudo docker build -t ${IMAGE_NAME}:${NEW_VERSION}
+                 '''
+            }
+        }
+        stage ('Publish') {
+            steps {
+                 withCredentials([usernamePassword(credentialsId: 'dockerhub-cristian-credenti>
+                    sh '''
+                      echo $DOCKER_PASSWORD | sudo docker login -u $DOCKER_USER --password-st>
+                      sudo docker push ${IMAGE_NAME}:${NEW_VERSION}
+                    '''
+                }
             }
         }
     }  
