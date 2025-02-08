@@ -58,3 +58,5 @@ Este repositorio sigue una estrategia de control de versiones basada en ramas po
 - Asegurar pruebas y validaciones antes de fusionar `develop` en `main`.
 
 Este flujo ayuda a mantener un desarrollo organizado, colaborativo y con código de alta calidad listo para producción.
+
+Elaborado por: Cristian Ricardo Ortega Ramírez
