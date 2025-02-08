@@ -30,7 +30,7 @@ pipeline {
             steps {
                  withCredentials([usernamePassword(credentialsId: 'openshift-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USER')]) {
                     sh '''
-                      echo $DOCKER_PASSWORD | sudo docker login -u $DOCKER_USER --password-st>
+                      echo $DOCKER_PASSWORD | sudo docker login -u $DOCKER_USER --password-stdin docker.io
                       sudo docker push ${IMAGE_NAME}:${NEW_VERSION}
                     '''
                 }
