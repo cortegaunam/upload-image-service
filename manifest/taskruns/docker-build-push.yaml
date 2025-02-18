@@ -1,0 +1,50 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: build-and-push-
+  namespace: diploe2-cror
+spec:
+  serviceAccountName: tekton-sa  # Usar el service account
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  taskSpec:
+    params:
+      - name: IMAGE_REPO
+        type: string
+        default: docker.io/richyortega/proyecto-diplomado
+    workspaces:
+      - name: workspace
+    steps:
+      - name: get-git-tag
+        image: alpine/git
+        script: |
+          #!/bin/sh
+          cd /workspace/workspace
+          git config --global --add safe.directory /workspace/workspace
+          TAG=$(git describe --tags --always || echo "latest")
+          echo $TAG > /workspace/workspace/git-tag.txt
+          cat /workspace/workspace/git-tag.txt
+
+      - name: build-image
+        image: quay.io/buildah/stable
+        script: |
+          #!/bin/sh
+          TAG=$(cat /workspace/workspace/git-tag.txt)
+          IMAGE_URL="$(params.IMAGE_REPO):$TAG"
+          echo "Creando imagen: $IMAGE_URL"
+          buildah bud --storage-driver=overlay -t $IMAGE_URL /workspace/workspace/
+          echo $IMAGE_URL > /workspace/workspace/image-url.txt
+          cat /workspace/workspace/image-url.txt
+
+      - name: push-image
+        image: quay.io/buildah/stable
+        script: |
+          #!/bin/sh
+          IMAGE_URL=$(cat /workspace/workspace/image-url.txt)
+          echo "Publicando imagen: $IMAGE_URL"
+          buildah push --storage-driver=overlay $IMAGE_URL docker://$IMAGE_URL
+  workspaces:
+    - name: workspace
+      persistentVolumeClaim:
+        claimName: workspace
