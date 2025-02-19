@@ -1,0 +1,51 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: deploy-with-kubernetes-actions
+spec:
+  params:
+    - name: MANIFEST_FILE
+      description: "The relative path to the YAML file inside the workspace"
+      default: "manifest/deploy-project-richyortega-final.yaml"
+    - name: IMAGE_NAME
+      description: "Nombre de la imagen a desplegar"
+      default: "richyortega/proyecto-diplomado"
+    - name: TAG
+      description: "Tag de la imagen a desplegar"
+      default: "latest"
+    - name: NAMESPACE
+      description: "Nombre del namespace donde se desplegará"
+      default: "diploe2-cror"
+  workspaces:
+    - name: workspace
+  steps:
+    - name: replace-placeholders
+      image: alpine
+      script: |
+        #!/bin/sh
+        set -e
+
+        MANIFEST_PATH="/workspace/workspace/$(params.MANIFEST_FILE)"
+
+        if [ ! -f "$MANIFEST_PATH" ]; then
+          echo "Error: No se encontró el manifiesto '$MANIFEST_PATH'"
+          exit 1
+        fi
+
+        echo "Reemplazando {{IMAGE_NAME}} por $(params.IMAGE_NAME)"
+        echo "Reemplazando {{NEW_VERSION}} por $(params.TAG)"
+
+        sed -i "s|{{IMAGE_NAME}}|$(params.IMAGE_NAME)|g" "$MANIFEST_PATH"
+        sed -i "s|{{NEW_VERSION}}|$(params.TAG)|g" "$MANIFEST_PATH"
+      workspaces:
+        - name: workspace
+
+    - name: apply-manifest
+      image: bitnami/kubectl
+      script: |
+        #!/bin/sh
+        set -e
+
+        kubectl apply -n $(params.NAMESPACE) -f /workspace/workspace/$(params.MANIFEST_FILE)
+      workspaces:
+        - name: workspace

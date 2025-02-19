@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: deploy-app-
+spec:
+  serviceAccountName: tekton-sa
+  taskRef:
+    name: deploy-with-kubernetes-actions
+  params:
+    - name: MANIFEST_FILE
+      value: "manifest/deploy-project-richyortega-final.yaml"
+    - name: IMAGE_NAME
+      value: "richyortega/proyecto-diplomado"
+    - name: TAG
+      value: "v1.0.0-35-g59ff90e"
+    - name: NAMESPACE
+      value: "diploe2-cror"
+  workspaces:
+    - name: workspace
+      persistentVolumeClaim:
+        claimName: workspace
