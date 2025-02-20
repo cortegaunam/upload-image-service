@@ -1,0 +1,45 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-and-push
+  namespace: diploe2-cror
+spec:
+  description: "Construye y publica una imagen de contenedor en DockerHub"
+  params:
+    - name: IMAGE_BASE_NAME
+      type: string
+      description: "Nombre base de la imagen en DockerHub"
+      default: "richyortega/proyecto-diplomado"
+  workspaces:
+    - name: workspace
+      description: "Workspace donde se encuentra el código fuente"
+    - name: docker-credentials
+      description: "Credenciales para autenticarse en DockerHub"
+  steps:
+    - name: get-git-tag
+      image: alpine/git
+      script: |
+        #!/bin/sh
+        cd /workspace/workspace
+        git config --global --add safe.directory /workspace/workspace
+        git fetch --prune --unshallow
+        TAG=$(git describe --tags --always || echo "latest")
+        echo "El TAG del repositorio es: $TAG"
+        echo $TAG > /workspace/workspace/git-tag.txt
+
+    - name: build-image
+      image: quay.io/buildah/stable
+      script: |
+        #!/bin/sh
+        TAG=$(cat /workspace/workspace/git-tag.txt)
+        IMAGE_URL="$(params.IMAGE_BASE_NAME):$TAG"
+        IMAGE_LATEST="$(params.IMAGE_BASE_NAME):latest"
+        echo "Creando imagen: $IMAGE_URL"
+        buildah build --storage-driver=overlay -t $IMAGE_URL -t $IMAGE_LATEST /workspace/workspace/
+        echo "Login en DockerHub"
+        buildah login -u $(cat /workspace/docker-credentials/username) -p $(cat /workspace/docker-credentials/password) docker.io
+        echo "Publicando imagen: $IMAGE_URL"
+        buildah push --storage-driver=overlay $IMAGE_URL
+        echo "Publicando imagen: $IMAGE_LATEST"
+        buildah push --storage-driver=overlay $IMAGE_LATEST
+        echo "Publicación de imágenes concluida exitosamente"
