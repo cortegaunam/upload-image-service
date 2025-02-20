@@ -11,8 +11,8 @@ spec:
       value: "manifest/deploy-project-richyortega-final.yaml"
     - name: IMAGE_NAME
       value: "richyortega/proyecto-diplomado"
-    - name: TAG
-      value: "v1.0.0-35-g59ff90e"
+    #- name: TAG
+    #  value: "v1.0.0-35-g59ff90e"
     - name: NAMESPACE
       value: "diploe2-cror"
   workspaces:
