@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: build-maven-java17-run
+spec:
+  taskRef:
+    name: maven  # Use the official Maven Task
+  workspaces:
+    - name: source
+      persistentVolumeClaim:
+        claimName: workspace
+    - name: maven-settings
+      emptyDir: {}  # Use emptyDir if no custom settings.xml is needed
+  params:
+    - name: GOALS
+      value: ["clean", "package", "-DskipTests"]
+    - name: MAVEN_IMAGE
+      value: "maven:3.9-eclipse-temurin-17"  # Java 17 Maven image
