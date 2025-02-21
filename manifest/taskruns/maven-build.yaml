@@ -1,7 +1,8 @@
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
-  name: build-maven-java17-run
+  generateName: build-maven-java17-
+  namespace: diploe2-cror
 spec:
   taskRef:
     name: maven  # Use the official Maven Task
@@ -15,4 +16,4 @@ spec:
     - name: GOALS
       value: ["clean", "package", "-DskipTests"]
     - name: MAVEN_IMAGE
-      value: "maven:3.9-eclipse-temurin-17"  # Java 17 Maven image
+      value: "maven:3.9.9-eclipse-temurin-17-alpine"  # Java 17 Maven image #value: "3.9-eclipse-temurin-17"  # Java 17 Maven image
