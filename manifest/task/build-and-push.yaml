@@ -43,3 +43,5 @@ spec:
         echo "Publicando imagen: $IMAGE_LATEST"
         buildah push --storage-driver=overlay $IMAGE_LATEST
         echo "Publicación de imágenes concluida exitosamente"
+        buildah rmi --all
+        echo "Imagenes eliminadas exitosamente"
