@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: build-and-push-
+  namespace: diploe2-cror
+spec:
+  taskRef:
+    name: build-and-push
+  serviceAccountName: tekton-sa
+  workspaces:
+    - name: workspace
+      persistentVolumeClaim:
+        claimName: workspace
+    - name: docker-credentials
+      secret:
+        secretName: basic-user-pass
