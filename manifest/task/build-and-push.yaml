@@ -45,3 +45,4 @@ spec:
         echo "Publicación de imágenes concluida exitosamente"
         buildah rmi --all
         echo "Imagenes eliminadas exitosamente"
+        ls -lh /workspace/workspace/target/
