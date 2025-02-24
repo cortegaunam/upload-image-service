@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: kubernetes-actions-
+  namespace: diploe2-cror
+spec:
+  serviceAccountName: tekton-sa
+  taskRef:
+    name: kubernetes-actions
+  params:
+    - name: script
+      value: |
+        kubectl delete deployment proyecto-diplomado-cror
+        kubectl create deployment proyecto-diplomado-cror --image=docker.io/richyortega/proyecto-diplomado:v2.0.0
+        echo "----------"
+        kubectl get deployment
+  workspaces:
+  - name: kubeconfig-dir
+    emptyDir: {}
+  - name: manifest-dir
+    emptyDir: {}
