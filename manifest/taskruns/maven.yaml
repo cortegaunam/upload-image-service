@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: build-maven-java17-
+  namespace: diploe2-cror
+spec:
+  taskRef:
+    name: maven
+  workspaces:
+    - name: source
+      persistentVolumeClaim:
+        claimName: workspace
+    - name: maven-settings
+      emptyDir: {}
+  params:
+    - name: GOALS
+      value: ["clean", "package", "-DskipTests"]
+    - name: MAVEN_IMAGE
+      value: maven:3-eclipse-temurin-17-alpine

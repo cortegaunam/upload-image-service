@@ -2,6 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
   generateName: list-directory-
+  namespace: diploe2-cror
 spec:
   taskRef:
     name: list-directory
