@@ -22,4 +22,4 @@ COPY target/register-image-service-0.0.1-SNAPSHOT.jar app.jar
 RUN microdnf install -y curl && microdnf clean all
 EXPOSE $APP_PORT
 
-CMD ["java", "-jar", "/app.jar"]
+CMD ["java", "-jar", "app.jar"]
