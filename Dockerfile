@@ -1,6 +1,8 @@
 FROM docker.io/openjdk:17-oracle
 LABEL maintainer="Cristian Ricardo Ortega Ramírez <cristian.ortega@comunidad.unam.mx>"
 
+WORKDIR /app
+
 ARG MONGO_URI=mongodb://usuario:contraseña@host:puerto/nombre_base_datos
 ARG MINIO_URL=http://localhost:9000
 ARG MINIO_USER=minio_user
@@ -15,7 +17,7 @@ ENV MINIO_PASSWORD=${MINIO_PASS}
 ENV MINIO_BUCKET_NAME=${MINIO_BUCKET_NAME}
 ENV APP_PORT=${APP_PORT}
 
-COPY target/*.jar app.jar
+COPY target/register-image-service-0.0.1-SNAPSHOT.jar app.jar
 
 RUN microdnf install -y curl && microdnf clean all
 EXPOSE $APP_PORT
