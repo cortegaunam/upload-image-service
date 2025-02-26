@@ -6,6 +6,9 @@ metadata:
 spec:
   taskRef:
     name: buildah
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
   params:
     - name: IMAGE
       value: 'docker.io/richyortega/proyecto-diplomado:v2.0.0'

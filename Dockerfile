@@ -10,7 +10,7 @@ ARG MINIO_PASS=minio_pass
 ARG MINIO_BUCKET_NAME=bucket_name
 ARG APP_PORT=8080
 
-ENV MONGO_URI=$MONGO_URI
+ENV MONGO_URI=${MONGO_URI}
 ENV MINIO_URL=${MINIO_URL} 
 ENV MINIO_USER=${MINIO_USER} 
 ENV MINIO_PASSWORD=${MINIO_PASS} 
@@ -19,7 +19,7 @@ ENV APP_PORT=${APP_PORT}
 
 COPY target/register-image-service-0.0.1-SNAPSHOT.jar app.jar
 
-RUN microdnf install -y curl && microdnf clean all
-EXPOSE $APP_PORT
+#RUN microdnf install -y curl && microdnf clean all
+EXPOSE ${APP_PORT}
 
 CMD ["java", "-jar", "app.jar"]
