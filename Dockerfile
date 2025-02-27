@@ -26,7 +26,7 @@ ENV MINIO_BUCKET_NAME=${MINIO_BUCKET_NAME}
 ENV APP_PORT=${APP_PORT}
 
 #COPY target/register-image-service-0.0.1-SNAPSHOT.jar app.jar
-COPY --from=build /app/target/*.jar /app/app.jar
+COPY --from=builder /app/target/*.jar /app/app.jar
 
 #RUN microdnf install -y curl && microdnf clean all
 EXPOSE ${APP_PORT}
