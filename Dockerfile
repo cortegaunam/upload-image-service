@@ -1,5 +1,5 @@
 # Step 1: Build the Maven project using Java 17
-FROM maven:3-eclipse-temurin-17-alpine as builder
+FROM docker.io/maven:3-eclipse-temurin-17-alpine as builder
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
