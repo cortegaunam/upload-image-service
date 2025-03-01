@@ -1,0 +1,50 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline-clone-package
+spec:
+  description: |
+    This pipeline is part of the final proyect of Diplomado
+    Pipeline works:
+    Tasks defined in the pipeline:
+      - git-clone: fetching the project git repository as the source
+      - buildha: generate the container image and publish to dockerhub
+  params:
+    - name: repo-url
+      type: string
+    - name: image-name
+      type: string
+  workspaces:
+    - name: workspace
+    - name: dockerconfig
+  tasks:
+    - name: fetch-repository
+      taskRef:
+        kind: Task
+        name: git-clone
+      params:
+        - name: url # <- this is the git-clone param
+          value: $(params.repo-url) # <- a reference to param
+        - name: deleteExisting
+          value: "true"
+      workspaces:
+        - name: output # <- should be the same as the git-clone task
+          workspace: workspace # <- the workspace defined up
+    - name: build-and-push-image
+      taskRef:
+        kind: Task
+        name: buildah
+      runAfter: # <- the task should start once fetch-repository ends
+        - fetch-repository
+      params:
+        - name: IMAGE
+          value: $(params.image-name)
+        - name: TLSVERIFY
+          value: 'false'
+        - name: STORAGE_DRIVER
+          value: 'vfs'
+      workspaces:
+        - name: source
+          workspace: workspace
+        - name: dockerconfig
+          workspace: dockerconfig
