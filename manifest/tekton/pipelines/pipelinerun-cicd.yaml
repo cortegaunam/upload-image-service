@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: pipelinerun-cicd-
+  namespace: diploe2-cror
+spec:
+  serviceAccountName: tekton-sa
+  pipelineRef:
+    name: pipeline-cicd
+  params:
+    - name: repo-url
+      value: https://github.com/cortegaunam/upload-image-service.git
+    - name: image-name
+      value: docker.io/richyortega/proyecto-diplomado:v2.1.1
+    - name: deploy-name
+      value: proyecto-diplomado-cror
+  workspaces:
+    - name: workspace
+      persistentVolumeClaim:
+        claimName: workspace
+    - name: dockerconfig
+      secret:
+        secretName: dockerconfig-secret
+    - name: empty-dir
+      emptyDir: {}
