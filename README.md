@@ -59,4 +59,4 @@ Este repositorio sigue una estrategia de control de versiones basada en ramas po
 
 Este flujo ayuda a mantener un desarrollo organizado, colaborativo y con código de alta calidad listo para producción.
 
-Elaborado por: Mtro. Cristian Ricardo Ortega Ramírez
+Elaborado por: Ing. Cristian Ricardo Ortega Ramírez
