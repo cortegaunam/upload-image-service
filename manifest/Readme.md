@@ -61,6 +61,7 @@ tkn taskrun logs <nombre-del-taskrun> -f
 
 ```sh
 kubectl create -f tekton/pipelines/pipelinerun-git-clone-push.yaml
+```
 
 ### Ejecución de la Pipeline CI/CD Completa
 
