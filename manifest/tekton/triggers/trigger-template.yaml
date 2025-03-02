@@ -1,0 +1,42 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: tekton-trigger-template-cicd
+  namespace: diploe2-cror
+spec:
+  params:
+    - name: repo-url
+      description: The git repository URL to clone from.
+    #- name: branch-name
+    #  description: The git tag to clone.
+    - name: image-name
+      description: The image full path to host the built image, with version tag, e.g. image-registry.openshift-image-registry.svc:5000/tekton-pipelines/spring-boot-docker:v1.0.0.
+    - name: deploy-name
+      description: The name of deployment to create or update
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: pipelinerun-cicd-
+      spec:
+        serviceAccountName: tekton-sa
+        pipelineRef:
+          name: pipeline-cicd
+        params:
+          - name: repo-url
+            value: $(tt.params.repo-url)
+          #- name: branch-name
+          #  value: $(tt.params.branch-name)
+          - name: image-name
+            value: $(tt.params.image-name)
+          - name: deploy-name
+            value: $(tt.params.deploy-name)
+        workspaces:
+          - name: workspace
+            persistentVolumeClaim:
+              claimName: workspace
+          - name: empty-dir
+            emptyDir: {}
+          - name: dockerconfig
+            secret:
+              secretName: dockerconfig-secret
