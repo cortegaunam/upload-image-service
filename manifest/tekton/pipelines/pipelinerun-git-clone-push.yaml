@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: pipelinerun-clone-push-
+  namespace: diploe2-cror
+spec:
+  serviceAccountName: tekton-sa
+  pipelineRef:
+    name: pipeline-clone-package
+  params:
+    - name: repo-url
+      value: https://github.com/cortegaunam/upload-image-service.git
+    - name: image-name
+      value: docker.io/richyortega/proyecto-diplomado:v2.1.0
+  workspaces:
+    - name: workspace
+      persistentVolumeClaim:
+        claimName: workspace
+    - name: dockerconfig
+      secret:
+        secretName: dockerconfig-secret
