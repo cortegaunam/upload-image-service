@@ -63,6 +63,7 @@ spec:
           value: |
             kubectl delete deployment $(params.deploy-name)
             kubectl create deployment $(params.deploy-name) --image=$(params.image-name)
+            kubectl set env deployment/$(params.deploy-name) --from=configmap/my-config
             echo "----------"
             kubectl get deployment
       workspaces:
